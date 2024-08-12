@@ -7,6 +7,7 @@ export default function Home() {
   const { clear, action, get } = useWithBroadcast()
 
   const [time, setTime] = useState(0)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,18 +20,17 @@ export default function Home() {
   }, [])
 
   return (
-    <main className='container mx-auto debug'>
+    <main className='container mx-auto'>
       <div className='mt-10 bg-white text-center text-4xl text-black'>
         Time elapsed: {time}
       </div>
-      <div className='flex flex-row space-x-5 p-24'>
+      <div className='flex flex-row justify-center space-x-5 p-24'>
         <button
           className='bg-yellow-500 p-10'
           onClick={async () => {
             await action()
 
-            const val = await get()
-            console.debug('kambing', { val })
+            setCount(await get())
           }}
         >
           Action
@@ -38,8 +38,7 @@ export default function Home() {
         <button
           className='bg-green-500 p-10'
           onClick={async () => {
-            const val = await get()
-            console.debug('kambing', { val })
+            setCount(await get())
           }}
         >
           Get
@@ -49,12 +48,14 @@ export default function Home() {
           onClick={async () => {
             await clear()
 
-            const val = await get()
-            console.debug('kambing', { val })
+            setCount(await get())
           }}
         >
           Clear
         </button>
+      </div>
+      <div className='flex flex-row justify-center border border-white text-6xl'>
+        Counter: {count}
       </div>
     </main>
   )
